@@ -285,13 +285,13 @@ public class GroupCreateActivity extends PassphraseRequiredSherlockFragmentActiv
 
   private Uri getAvatarTempUri() {
     final File tempFile = getAvatarTempFile();
-    return tempFile == null ? null : Uri.fromFile(getAvatarTempFile());
+    return tempFile == null ? null : Uri.fromFile(tempFile);
   }
 
   private File getAvatarTempFile() {
     File f = new File(getFilesDir(), TEMP_PHOTO_FILE);
     try {
-      if (!f.createNewFile()) return null;
+      f.createNewFile();
       if (!f.setWritable(true, false)) return null;
       return f;
     } catch (IOException ioe) {
