@@ -13,6 +13,8 @@ import android.widget.CursorAdapter;
 import android.widget.ListView;
 
 import com.actionbarsherlock.app.SherlockListFragment;
+
+import org.whispersystems.textsecure.crypto.IdentityKeyParcelable;
 import org.whispersystems.textsecure.crypto.MasterSecret;
 import org.thoughtcrime.securesms.database.DatabaseFactory;
 import org.thoughtcrime.securesms.database.IdentityDatabase;
@@ -40,9 +42,11 @@ public class ReviewIdentitiesFragment extends SherlockListFragment
   @Override
   public void onListItemClick(ListView listView, View view, int position, long id) {
     Intent viewIntent = new Intent(getActivity(), ViewIdentityActivity.class);
-    viewIntent.putExtra("identity_key", ((IdentityKeyView)view).getIdentityKey());
-    viewIntent.putExtra("title", ((IdentityKeyView)view).getRecipient().toShortString() + " " +
-                                 getString(R.string.ViewIdentityActivity_identity_fingerprint));
+    viewIntent.putExtra(ViewIdentityActivity.IDENTITY_KEY,
+                        new IdentityKeyParcelable(((IdentityKeyView)view).getIdentityKey()));
+    viewIntent.putExtra(ViewIdentityActivity.TITLE,
+                        ((IdentityKeyView)view).getRecipient().toShortString() + " " +
+                            getString(R.string.ViewIdentityActivity_identity_fingerprint));
     startActivity(viewIntent);
   }
 

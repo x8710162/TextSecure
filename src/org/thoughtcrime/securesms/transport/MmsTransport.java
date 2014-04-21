@@ -32,9 +32,10 @@ import org.thoughtcrime.securesms.recipients.Recipient;
 import org.thoughtcrime.securesms.recipients.RecipientFactory;
 import org.thoughtcrime.securesms.recipients.RecipientFormattingException;
 import org.thoughtcrime.securesms.util.TextSecurePreferences;
+import org.whispersystems.libaxolotl.SessionCipher;
+import org.whispersystems.libaxolotl.protocol.CiphertextMessage;
 import org.whispersystems.textsecure.crypto.MasterSecret;
-import org.whispersystems.textsecure.crypto.SessionCipher;
-import org.whispersystems.textsecure.crypto.protocol.CiphertextMessage;
+import org.whispersystems.textsecure.crypto.SessionCipherFactory;
 import org.whispersystems.textsecure.storage.RecipientDevice;
 import org.whispersystems.textsecure.storage.Session;
 import org.whispersystems.textsecure.util.Hex;
@@ -175,7 +176,7 @@ public class MmsTransport {
         throw new InsecureFallbackApprovalException("No session exists for this secure message.");
       }
 
-      SessionCipher     sessionCipher     = SessionCipher.createFor(context, masterSecret, recipientDevice);
+      SessionCipher     sessionCipher     = SessionCipherFactory.getInstance(context, masterSecret, recipientDevice);
       CiphertextMessage ciphertextMessage = sessionCipher.encrypt(pduBytes);
 
       return transportDetails.getEncodedMessage(ciphertextMessage.serialize());

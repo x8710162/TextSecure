@@ -24,7 +24,7 @@ import android.util.Pair;
 
 import org.thoughtcrime.securesms.crypto.AsymmetricMasterCipher;
 import org.thoughtcrime.securesms.crypto.AsymmetricMasterSecret;
-import org.whispersystems.textsecure.crypto.InvalidMessageException;
+import org.whispersystems.libaxolotl.InvalidMessageException;
 import org.whispersystems.textsecure.crypto.MasterCipher;
 import org.whispersystems.textsecure.crypto.MasterSecret;
 import org.thoughtcrime.securesms.database.model.DisplayRecord;

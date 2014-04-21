@@ -22,13 +22,13 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.util.Log;
 
-import org.whispersystems.textsecure.crypto.InvalidKeyException;
+import org.whispersystems.libaxolotl.InvalidKeyException;
+import org.whispersystems.libaxolotl.ecc.Curve;
+import org.whispersystems.libaxolotl.ecc.ECKeyPair;
+import org.whispersystems.libaxolotl.ecc.ECPrivateKey;
+import org.whispersystems.libaxolotl.ecc.ECPublicKey;
 import org.whispersystems.textsecure.crypto.MasterCipher;
 import org.whispersystems.textsecure.crypto.MasterSecret;
-import org.whispersystems.textsecure.crypto.ecc.Curve;
-import org.whispersystems.textsecure.crypto.ecc.ECKeyPair;
-import org.whispersystems.textsecure.crypto.ecc.ECPrivateKey;
-import org.whispersystems.textsecure.crypto.ecc.ECPublicKey;
 import org.whispersystems.textsecure.util.Base64;
 import org.whispersystems.textsecure.util.Util;
 
@@ -116,8 +116,8 @@ public class MasterSecretUtil {
       byte[] djbPublicBytes   = retrieve(context, ASYMMETRIC_LOCAL_PUBLIC_DJB);
       byte[] djbPrivateBytes  = retrieve(context, ASYMMETRIC_LOCAL_PRIVATE_DJB);
 
-      ECPublicKey  djbPublicKey   = null;
-      ECPrivateKey djbPrivateKey  = null;
+      ECPublicKey  djbPublicKey  = null;
+      ECPrivateKey djbPrivateKey = null;
 
       if (djbPublicBytes != null) {
         djbPublicKey = Curve.decodePoint(djbPublicBytes, 0);

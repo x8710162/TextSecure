@@ -10,7 +10,7 @@ import org.thoughtcrime.securesms.push.PushServiceSocketFactory;
 import org.thoughtcrime.securesms.service.RegistrationService;
 import org.thoughtcrime.securesms.service.SendReceiveService;
 import org.thoughtcrime.securesms.util.TextSecurePreferences;
-import org.whispersystems.textsecure.crypto.InvalidVersionException;
+import org.whispersystems.libaxolotl.InvalidVersionException;
 import org.whispersystems.textsecure.directory.Directory;
 import org.whispersystems.textsecure.directory.NotInDirectoryException;
 import org.whispersystems.textsecure.push.ContactTokenDetails;

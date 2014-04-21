@@ -29,9 +29,10 @@ import org.thoughtcrime.securesms.sms.OutgoingPrekeyBundleMessage;
 import org.thoughtcrime.securesms.sms.OutgoingTextMessage;
 import org.thoughtcrime.securesms.sms.SmsTransportDetails;
 import org.thoughtcrime.securesms.util.TextSecurePreferences;
+import org.whispersystems.libaxolotl.SessionCipher;
+import org.whispersystems.libaxolotl.protocol.CiphertextMessage;
 import org.whispersystems.textsecure.crypto.MasterSecret;
-import org.whispersystems.textsecure.crypto.SessionCipher;
-import org.whispersystems.textsecure.crypto.protocol.CiphertextMessage;
+import org.whispersystems.textsecure.crypto.SessionCipherFactory;
 import org.whispersystems.textsecure.storage.RecipientDevice;
 import org.whispersystems.textsecure.storage.Session;
 
@@ -178,7 +179,7 @@ public class SmsTransport extends BaseTransport {
 
     String              body              = message.getMessageBody();
     SmsTransportDetails transportDetails  = new SmsTransportDetails();
-    SessionCipher       sessionCipher     = SessionCipher.createFor(context, masterSecret, recipientDevice);
+    SessionCipher       sessionCipher     = SessionCipherFactory.getInstance(context, masterSecret, recipientDevice);
     byte[]              paddedPlaintext   = transportDetails.getPaddedMessageBody(body.getBytes());
     CiphertextMessage   ciphertextMessage = sessionCipher.encrypt(paddedPlaintext);
     String              encodedCiphertext = new String(transportDetails.getEncodedMessage(ciphertextMessage.serialize()));

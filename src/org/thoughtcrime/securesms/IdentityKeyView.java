@@ -26,10 +26,10 @@ import android.widget.QuickContactBadge;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import org.whispersystems.textsecure.crypto.IdentityKey;
 import org.thoughtcrime.securesms.database.IdentityDatabase;
 import org.thoughtcrime.securesms.recipients.Recipient;
 import org.thoughtcrime.securesms.recipients.Recipients;
+import org.whispersystems.libaxolotl.IdentityKey;
 
 /**
  * List item view for displaying user identity keys.
