@@ -37,7 +37,7 @@ import org.whispersystems.textsecure.directory.NotInDirectoryException;
 import org.whispersystems.textsecure.push.ContactTokenDetails;
 import org.whispersystems.textsecure.push.PushServiceSocket;
 import org.whispersystems.textsecure.push.UnregisteredUserException;
-import org.whispersystems.textsecure.storage.Session;
+import org.whispersystems.textsecure.storage.SessionUtil;
 import org.whispersystems.textsecure.util.DirectoryUtil;
 import org.whispersystems.textsecure.util.InvalidNumberException;
 
@@ -169,7 +169,7 @@ public class UniversalTransport {
         Log.w("UniversalTransport", "Falling back to MMS");
         DatabaseFactory.getMmsDatabase(context).markAsForcedSms(mediaMessage.getDatabaseMessageId());
         return mmsTransport.deliver(mediaMessage);
-      } else if (!Session.hasEncryptCapableSession(context, masterSecret, recipient)) {
+      } else if (!SessionUtil.hasEncryptCapableSession(context, masterSecret, recipient)) {
         Log.w("UniversalTransport", "Marking message as pending insecure SMS fallback");
         throw new InsecureFallbackApprovalException("Pending user approval for fallback to insecure SMS");
       } else {
@@ -191,7 +191,7 @@ public class UniversalTransport {
       Log.w("UniversalTransport", "Falling back to SMS");
       DatabaseFactory.getSmsDatabase(context).markAsForcedSms(smsMessage.getId());
       smsTransport.deliver(smsMessage);
-    } else if (!Session.hasEncryptCapableSession(context, masterSecret, recipient)) {
+    } else if (!SessionUtil.hasEncryptCapableSession(context, masterSecret, recipient)) {
       Log.w("UniversalTransport", "Marking message as pending insecure fallback.");
       throw new InsecureFallbackApprovalException("Pending user approval for fallback to insecure SMS");
     } else {

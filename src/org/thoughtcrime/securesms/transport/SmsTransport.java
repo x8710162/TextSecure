@@ -31,10 +31,13 @@ import org.thoughtcrime.securesms.sms.SmsTransportDetails;
 import org.thoughtcrime.securesms.util.TextSecurePreferences;
 import org.whispersystems.libaxolotl.SessionCipher;
 import org.whispersystems.libaxolotl.protocol.CiphertextMessage;
+import org.whispersystems.libaxolotl.state.SessionRecord;
+import org.whispersystems.libaxolotl.state.SessionStore;
 import org.whispersystems.textsecure.crypto.MasterSecret;
 import org.whispersystems.textsecure.crypto.SessionCipherFactory;
 import org.whispersystems.textsecure.storage.RecipientDevice;
-import org.whispersystems.textsecure.storage.Session;
+import org.whispersystems.textsecure.storage.SessionUtil;
+import org.whispersystems.textsecure.storage.TextSecureSessionStore;
 
 import java.util.ArrayList;
 
@@ -173,7 +176,7 @@ public class SmsTransport extends BaseTransport {
     RecipientDevice     recipientDevice   = new RecipientDevice(recipient.getRecipientId(),
                                                                 RecipientDevice.DEFAULT_DEVICE_ID);
 
-    if (!Session.hasEncryptCapableSession(context, masterSecret, recipient, recipientDevice)) {
+    if (!SessionUtil.hasEncryptCapableSession(context, masterSecret, recipientDevice)) {
       throw new InsecureFallbackApprovalException("No session exists for this secure message.");
     }
 
