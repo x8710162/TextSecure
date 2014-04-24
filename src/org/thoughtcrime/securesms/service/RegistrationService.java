@@ -21,6 +21,7 @@ import org.thoughtcrime.securesms.util.DirectoryHelper;
 import org.thoughtcrime.securesms.util.TextSecurePreferences;
 import org.whispersystems.libaxolotl.IdentityKey;
 import org.whispersystems.libaxolotl.state.PreKeyRecord;
+import org.whispersystems.libaxolotl.util.KeyHelper;
 import org.whispersystems.textsecure.crypto.MasterSecret;
 import org.whispersystems.textsecure.crypto.PreKeyUtil;
 import org.whispersystems.textsecure.push.ExpectationFailedException;
@@ -206,7 +207,7 @@ public class RegistrationService extends Service {
     int          registrationId = TextSecurePreferences.getLocalRegistrationId(this);
 
     if (registrationId == 0) {
-      registrationId = Util.generateRegistrationId();
+      registrationId = KeyHelper.generateRegistrationId();
       TextSecurePreferences.setLocalRegistrationId(this, registrationId);
     }
 
