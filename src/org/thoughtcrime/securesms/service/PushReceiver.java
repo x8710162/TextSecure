@@ -27,6 +27,7 @@ import org.thoughtcrime.securesms.util.TextSecurePreferences;
 import org.whispersystems.libaxolotl.InvalidKeyException;
 import org.whispersystems.libaxolotl.InvalidMessageException;
 import org.whispersystems.libaxolotl.InvalidVersionException;
+import org.whispersystems.libaxolotl.UntrustedIdentityException;
 import org.whispersystems.libaxolotl.protocol.PreKeyWhisperMessage;
 import org.whispersystems.libaxolotl.state.SessionStore;
 import org.whispersystems.textsecure.crypto.MasterSecret;
@@ -117,12 +118,13 @@ public class PushReceiver {
       KeyExchangeProcessor processor       = new KeyExchangeProcessor(context, masterSecret, recipientDevice);
       PreKeyWhisperMessage   preKeyExchange  = new PreKeyWhisperMessage(message.getBody());
 
-      if (processor.isTrusted(preKeyExchange)) {
+      try {
         processor.processKeyExchangeMessage(preKeyExchange);
 
         IncomingPushMessage bundledMessage = message.withBody(preKeyExchange.getWhisperMessage().serialize());
         handleReceivedSecureMessage(masterSecret, bundledMessage);
-      } else {
+      } catch (UntrustedIdentityException uie) {
+        Log.w("PushReceiver", uie);
         String                      encoded       = Base64.encodeBytes(message.getBody());
         IncomingTextMessage         textMessage   = new IncomingTextMessage(message, encoded, null);
         IncomingPreKeyBundleMessage bundleMessage = new IncomingPreKeyBundleMessage(textMessage, encoded);
