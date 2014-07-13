@@ -28,6 +28,9 @@ dependencies {
     compile 'se.emilsjolander:stickylistheaders:2.2.0'
 
     compile project(':library')
+
+    androidTestCompile 'com.google.dexmaker:dexmaker:1.1'
+    androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.1'
 }
 
 dependencyVerification {
@@ -67,6 +70,12 @@ android {
                 renderscript.srcDirs = ['src']
                 res.srcDirs = ['res']
                 assets.srcDirs = ['assets']
+            }
+            androidTest {
+                java.srcDirs = ['androidTest/java']
+                resources.srcDirs = ['androidTest/java']
+                aidl.srcDirs = ['androidTest/java']
+                renderscript.srcDirs = ['androidTest/java']
             }
         }
     }
