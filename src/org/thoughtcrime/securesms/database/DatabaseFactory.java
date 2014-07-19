@@ -429,8 +429,11 @@ public class DatabaseFactory {
         Cursor       cursor       = null;
 
         try {
-          cursor = db.query("sms", new String[] {"_id", "body", "type"}, "type & 0xFF000000 == 0",
-                            null, null, null, null);
+          cursor = db.query(SmsDatabase.TABLE_NAME,
+                            new String[] {SmsDatabase.ID, SmsDatabase.BODY, SmsDatabase.TYPE},
+                            SmsDatabase.TYPE + " & ? == 0",
+                            new String[] {String.valueOf(SmsDatabase.Types.ENCRYPTION_MASK)},
+                            null, null, null);
 
           while (cursor.moveToNext()) {
             long   id   = cursor.getLong(0);
@@ -440,10 +443,11 @@ public class DatabaseFactory {
             String encryptedBody = masterCipher.encryptBody(body);
 
             ContentValues update = new ContentValues();
-            update.put("body", encryptedBody);
-            update.put("type", type & 0x80000000);
+            update.put(SmsDatabase.BODY, encryptedBody);
+            update.put(SmsDatabase.TYPE, type | SmsDatabase.Types.ENCRYPTION_SYMMETRIC_BIT);
 
-            db.update("sms", update, "_id = ?", new String[] {String.valueOf(id)});
+            db.update(SmsDatabase.TABLE_NAME, update, SmsDatabase.ID  + " = ?",
+                      new String[] {String.valueOf(id)});
           }
         } finally {
           if (cursor != null)
