@@ -438,7 +438,7 @@ public class DatabaseFactory {
           while (cursor.moveToNext()) {
             long   id   = cursor.getLong(0);
             String body = cursor.getString(1);
-            long   type = cursor.getLong(3);
+            long   type = cursor.getLong(2);
 
             String encryptedBody = masterCipher.encryptBody(body);
 
