@@ -30,7 +30,7 @@ import org.thoughtcrime.securesms.util.DynamicLanguage;
 import org.thoughtcrime.securesms.util.DynamicTheme;
 import org.thoughtcrime.securesms.util.MemoryCleaner;
 import org.thoughtcrime.securesms.util.TextSecurePreferences;
-import org.whispersystems.textsecure.crypto.MasterSecret;
+import org.thoughtcrime.securesms.crypto.MasterSecret;
 
 public class MmsPreferencesActivity extends PassphraseRequiredSherlockPreferenceActivity {
 
@@ -71,7 +71,7 @@ public class MmsPreferencesActivity extends PassphraseRequiredSherlockPreference
   public boolean onOptionsItemSelected(MenuItem item) {
     switch (item.getItemId()) {
       case android.R.id.home:
-        handleDownloadMmsPendingApn();
+//        handleDownloadMmsPendingApn();
         finish();
         return true;
     }
@@ -81,7 +81,7 @@ public class MmsPreferencesActivity extends PassphraseRequiredSherlockPreference
 
   @Override
   public void onBackPressed() {
-    handleDownloadMmsPendingApn();
+//    handleDownloadMmsPendingApn();
     super.onBackPressed();
   }
 
@@ -117,11 +117,11 @@ public class MmsPreferencesActivity extends PassphraseRequiredSherlockPreference
     initializeEditTextSummary((EditTextPreference)this.findPreference(TextSecurePreferences.MMSC_PROXY_PORT_PREF));
   }
 
-  private void handleDownloadMmsPendingApn() {
-    Intent intent = new Intent(this, SendReceiveService.class);
-    intent.setAction(SendReceiveService.DOWNLOAD_MMS_PENDING_APN_ACTION);
-    startService(intent);
-  }
+//  private void handleDownloadMmsPendingApn() {
+//    Intent intent = new Intent(this, SendReceiveService.class);
+//    intent.setAction(SendReceiveService.DOWNLOAD_MMS_PENDING_APN_ACTION);
+//    startService(intent);
+//  }
 
   private class OverrideMmsChangeListener implements Preference.OnPreferenceChangeListener {
     @Override

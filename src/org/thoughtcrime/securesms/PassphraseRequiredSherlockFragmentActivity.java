@@ -2,7 +2,7 @@ package org.thoughtcrime.securesms;
 
 import android.os.Bundle;
 
-import org.whispersystems.textsecure.crypto.MasterSecret;
+import org.thoughtcrime.securesms.crypto.MasterSecret;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 
