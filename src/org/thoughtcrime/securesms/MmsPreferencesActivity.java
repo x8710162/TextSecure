@@ -16,7 +16,6 @@
  */
 package org.thoughtcrime.securesms;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.preference.EditTextPreference;
 import android.preference.Preference;
@@ -24,13 +23,12 @@ import android.widget.Toast;
 
 import com.actionbarsherlock.view.MenuItem;
 
+import org.thoughtcrime.securesms.crypto.MasterSecret;
 import org.thoughtcrime.securesms.mms.IncomingMmsConnection;
-import org.thoughtcrime.securesms.service.SendReceiveService;
 import org.thoughtcrime.securesms.util.DynamicLanguage;
 import org.thoughtcrime.securesms.util.DynamicTheme;
 import org.thoughtcrime.securesms.util.MemoryCleaner;
 import org.thoughtcrime.securesms.util.TextSecurePreferences;
-import org.thoughtcrime.securesms.crypto.MasterSecret;
 
 public class MmsPreferencesActivity extends PassphraseRequiredSherlockPreferenceActivity {
 

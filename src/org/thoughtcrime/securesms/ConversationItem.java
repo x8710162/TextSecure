@@ -46,10 +46,11 @@ import org.thoughtcrime.securesms.database.model.MediaMmsMessageRecord;
 import org.thoughtcrime.securesms.database.model.MessageRecord;
 import org.thoughtcrime.securesms.database.model.NotificationMmsMessageRecord;
 import org.thoughtcrime.securesms.jobs.MmsDownloadJob;
+import org.thoughtcrime.securesms.jobs.MmsSendJob;
+import org.thoughtcrime.securesms.jobs.SmsSendJob;
 import org.thoughtcrime.securesms.mms.Slide;
 import org.thoughtcrime.securesms.mms.SlideDeck;
 import org.thoughtcrime.securesms.recipients.Recipient;
-import org.thoughtcrime.securesms.service.SendReceiveService;
 import org.thoughtcrime.securesms.util.DateUtils;
 import org.thoughtcrime.securesms.util.Dialogs;
 import org.thoughtcrime.securesms.util.Emoji;
@@ -549,6 +550,10 @@ public class ConversationItem extends LinearLayout {
           }
           database.markAsOutbox(messageRecord.getId());
           database.markAsForcedSms(messageRecord.getId());
+
+          ApplicationContext.getInstance(context)
+                            .getJobManager()
+                            .add(new MmsSendJob(context, messageRecord.getId()));
         } else {
           SmsDatabase database = DatabaseFactory.getSmsDatabase(context);
           if (messageRecord.isPendingInsecureSmsFallback()) {
@@ -556,15 +561,12 @@ public class ConversationItem extends LinearLayout {
           }
           database.markAsOutbox(messageRecord.getId());
           database.markAsForcedSms(messageRecord.getId());
+
+          ApplicationContext.getInstance(context)
+                            .getJobManager()
+                            .add(new SmsSendJob(context, messageRecord.getId(),
+                                                messageRecord.getIndividualRecipient().getNumber()));
         }
-
-        Intent intent = new Intent(context, SendReceiveService.class);
-        intent.setAction(messageRecord.isMms() ?
-                             SendReceiveService.SEND_MMS_ACTION :
-                             SendReceiveService.SEND_SMS_ACTION);
-        intent.putExtra(SendReceiveService.MASTER_SECRET_EXTRA, masterSecret);
-
-        context.startService(intent);
       }
     });
 

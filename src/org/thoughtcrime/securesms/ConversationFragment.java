@@ -254,10 +254,15 @@ public class ConversationFragment extends SherlockListFragment
     startActivity(composeIntent);
   }
 
-  private void handleResendMessage(MessageRecord message) {
-    long messageId = message.getId();
-    final Activity activity = getActivity();
-    MessageSender.resend(activity, messageId, message.isMms());
+  private void handleResendMessage(final MessageRecord message) {
+    final Context context = getActivity().getApplicationContext();
+    new AsyncTask<MessageRecord, Void, Void>() {
+      @Override
+      protected Void doInBackground(MessageRecord... messageRecords) {
+        MessageSender.resend(context, masterSecret, messageRecords[0]);
+        return null;
+      }
+    }.execute(message);
   }
 
   private void handleSaveAttachment(final MessageRecord message) {
