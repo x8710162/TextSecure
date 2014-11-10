@@ -50,8 +50,9 @@ import com.google.android.gms.gcm.GoogleCloudMessaging;
 import org.thoughtcrime.securesms.components.OutgoingSmsPreference;
 import org.thoughtcrime.securesms.contacts.ContactAccessor;
 import org.thoughtcrime.securesms.contacts.ContactIdentityManager;
+import org.thoughtcrime.securesms.crypto.MasterSecret;
 import org.thoughtcrime.securesms.crypto.MasterSecretUtil;
-import org.thoughtcrime.securesms.push.PushServiceSocketFactory;
+import org.thoughtcrime.securesms.push.TextSecureCommunicationFactory;
 import org.thoughtcrime.securesms.service.KeyCachingService;
 import org.thoughtcrime.securesms.util.Dialogs;
 import org.thoughtcrime.securesms.util.DynamicLanguage;
@@ -60,9 +61,9 @@ import org.thoughtcrime.securesms.util.MemoryCleaner;
 import org.thoughtcrime.securesms.util.TextSecurePreferences;
 import org.thoughtcrime.securesms.util.Trimmer;
 import org.thoughtcrime.securesms.util.Util;
-import org.thoughtcrime.securesms.crypto.MasterSecret;
+import org.whispersystems.libaxolotl.util.guava.Optional;
+import org.whispersystems.textsecure.api.TextSecureAccountManager;
 import org.whispersystems.textsecure.push.exceptions.AuthorizationFailedException;
-import org.whispersystems.textsecure.push.PushServiceSocket;
 
 import java.io.IOException;
 
@@ -340,10 +341,10 @@ public class ApplicationPreferencesActivity extends PassphraseRequiredSherlockPr
       @Override
       protected Integer doInBackground(Void... params) {
         try {
-          Context           context = ApplicationPreferencesActivity.this;
-          PushServiceSocket socket  = PushServiceSocketFactory.create(context);
+          Context                  context        = ApplicationPreferencesActivity.this;
+          TextSecureAccountManager accountManager = TextSecureCommunicationFactory.createManager(context);
 
-          socket.unregisterGcmId();
+          accountManager.setGcmId(Optional.<String>absent());
           GoogleCloudMessaging.getInstance(context).unregister();
 
           return SUCCESS;
